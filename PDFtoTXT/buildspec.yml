@@ -7,10 +7,7 @@ phases:
   build:
     commands:
       - pip install -r PDFtoTXT/requirements.txt -t PDFtoTXT/
-      aws cloudformation package \
-        --template-file PDFtoTXT/pdftotxt.yaml \
-        --s3-bucket codepipeline-us-east-1-66843b3dcf90-47f6-a5e2-120b13d644c9 \
-        --output-template-file lambdaoutput.yaml
+      aws cloudformation package --template-file PDFtoTXT/pdftotxt.yaml --s3-bucket codepipeline-us-east-1-66843b3dcf90-47f6-a5e2-120b13d644c9 --output-template-file lambdaoutput.yaml
 
 
 artifacts:
