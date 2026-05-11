@@ -1,15 +1,16 @@
 version: 0.2
+
 phases:
   install:
     runtime-versions:
       python: 3.11
   build:
     commands:
-      - pip install -r PDFtoTXT/requirements.txt -t .
-      - aws cloudformation package --template-file pdftotxt.yaml --s3-bucket artifacts-bucket-gl --output-template-file lambdaoutput.yaml
+      - pip install -r PDFtoTXT/requirements.txt -t PDFtoTXT/
+      - aws cloudformation package --template-file PDFtoTXT/pdftotxt.yaml --s3-bucket artifacts-bucket-gl --output-template-file lambdaoutput.yaml
 
 artifacts:
   type: zip
   files:
-    - pdftotxt.yaml
     - lambdaoutput.yaml
+    - PDFtoTXT/**/*
