@@ -1,0 +1,417 @@
+terraform plan -out=tfplan
+data.aws_iam_policy_document.lambda_basic: Reading...
+data.aws_iam_policy_document.lambda_assume_role: Reading...
+aws_apigatewayv2_api.search_api: Refreshing state... [id=zqurze0sj6]
+aws_security_group.opensearch_sg: Refreshing state... [id=sg-0459a66a70f3bf9cf]
+aws_s3_bucket.document_store: Refreshing state... [id=init-docu-store-09052026093305]
+aws_s3_bucket.intermediate: Refreshing state... [id=inter-docu-store-09052026093405]
+data.aws_iam_policy_document.lambda_assume_role: Read complete after 0s [id=2690255455]
+data.aws_iam_policy_document.lambda_basic: Read complete after 0s [id=3546645223]
+aws_iam_policy.lambda_basic: Refreshing state... [id=arn:aws:iam::122118540225:policy/search-engine-lambda-basic]
+aws_iam_role.lambda_role: Refreshing state... [id=search-engine-lambda-role]
+aws_apigatewayv2_stage.default: Refreshing state... [id=$default]
+aws_iam_role_policy_attachment.lambda_basic_attach: Refreshing state... [id=search-engine-lambda-role/arn:aws:iam::122118540225:policy/search-engine-lambda-basic]
+data.aws_iam_policy_document.lambda_s3: Reading...
+data.aws_iam_policy_document.lambda_s3: Read complete after 0s [id=1939015901]
+aws_lambda_function.pdftotxt: Refreshing state... [id=pdftotxt]
+aws_iam_policy.lambda_s3: Refreshing state... [id=arn:aws:iam::122118540225:policy/search-engine-lambda-s3]
+aws_iam_role_policy_attachment.lambda_s3_attach: Refreshing state... [id=search-engine-lambda-role/arn:aws:iam::122118540225:policy/search-engine-lambda-s3]
+aws_lambda_permission.s3_invoke_pdftotxt: Refreshing state... [id=AllowS3InvokePdftotxt]
+aws_s3_bucket_notification.document_store_notifications: Refreshing state... [id=init-docu-store-09052026093305]
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  + create
+ <= read (data resources)
+
+Terraform will perform the following actions:
+
+  # data.aws_iam_policy_document.lambda_opensearch will be read during apply
+  # (config refers to values not yet known)
+ <= data "aws_iam_policy_document" "lambda_opensearch" {
+      + id            = (known after apply)
+      + json          = (known after apply)
+      + minified_json = (known after apply)
+
+      + statement {
+          + actions   = [
+              + "es:ESHttpDelete",
+              + "es:ESHttpGet",
+              + "es:ESHttpPost",
+              + "es:ESHttpPut",
+            ]
+          + resources = [
+              + (known after apply),
+            ]
+        }
+    }
+
+  # aws_apigatewayv2_integration.search_function_integration will be created
+  + resource "aws_apigatewayv2_integration" "search_function_integration" {
+      + api_id                                    = "zqurze0sj6"
+      + connection_type                           = "INTERNET"
+      + id                                        = (known after apply)
+      + integration_method                        = "POST"
+      + integration_response_selection_expression = (known after apply)
+      + integration_type                          = "AWS_PROXY"
+      + integration_uri                           = (known after apply)
+      + payload_format_version                    = "2.0"
+      + region                                    = "us-east-1"
+      + timeout_milliseconds                      = (known after apply)
+    }
+
+  # aws_apigatewayv2_integration.search_gateway_integration will be created
+  + resource "aws_apigatewayv2_integration" "search_gateway_integration" {
+      + api_id                                    = "zqurze0sj6"
+      + connection_type                           = "INTERNET"
+      + id                                        = (known after apply)
+      + integration_method                        = "POST"
+      + integration_response_selection_expression = (known after apply)
+      + integration_type                          = "AWS_PROXY"
+      + integration_uri                           = (known after apply)
+      + payload_format_version                    = "2.0"
+      + region                                    = "us-east-1"
+      + timeout_milliseconds                      = (known after apply)
+    }
+
+  # aws_apigatewayv2_route.root_route will be created
+  + resource "aws_apigatewayv2_route" "root_route" {
+      + api_id             = "zqurze0sj6"
+      + api_key_required   = false
+      + authorization_type = "NONE"
+      + id                 = (known after apply)
+      + region             = "us-east-1"
+      + route_key          = "ANY /"
+      + target             = (known after apply)
+    }
+
+  # aws_apigatewayv2_route.search_route will be created
+  + resource "aws_apigatewayv2_route" "search_route" {
+      + api_id             = "zqurze0sj6"
+      + api_key_required   = false
+      + authorization_type = "NONE"
+      + id                 = (known after apply)
+      + region             = "us-east-1"
+      + route_key          = "ANY /search"
+      + target             = (known after apply)
+    }
+
+  # aws_iam_policy.lambda_opensearch will be created
+  + resource "aws_iam_policy" "lambda_opensearch" {
+      + arn              = (known after apply)
+      + attachment_count = (known after apply)
+      + id               = (known after apply)
+      + name             = "search-engine-lambda-opensearch"
+      + name_prefix      = (known after apply)
+      + path             = "/"
+      + policy           = (known after apply)
+      + policy_id        = (known after apply)
+      + tags_all         = (known after apply)
+    }
+
+  # aws_iam_role_policy_attachment.lambda_opensearch_attach will be created
+  + resource "aws_iam_role_policy_attachment" "lambda_opensearch_attach" {
+      + id         = (known after apply)
+      + policy_arn = (known after apply)
+      + role       = "search-engine-lambda-role"
+    }
+
+  # aws_lambda_function.search_function will be created
+  + resource "aws_lambda_function" "search_function" {
+      + architectures                  = (known after apply)
+      + arn                            = (known after apply)
+      + code_sha256                    = (known after apply)
+      + filename                       = "lambda_placeholders/Search_function.zip"
+      + function_name                  = "searchFunction"
+      + handler                        = "sample.lambda_handler"
+      + id                             = (known after apply)
+      + invoke_arn                     = (known after apply)
+      + last_modified                  = (known after apply)
+      + memory_size                    = 128
+      + package_type                   = "Zip"
+      + publish                        = false
+      + qualified_arn                  = (known after apply)
+      + qualified_invoke_arn           = (known after apply)
+      + region                         = "us-east-1"
+      + reserved_concurrent_executions = -1
+      + response_streaming_invoke_arn  = (known after apply)
+      + role                           = "arn:aws:iam::122118540225:role/search-engine-lambda-role"
+      + runtime                        = "python3.11"
+      + signing_job_arn                = (known after apply)
+      + signing_profile_version_arn    = (known after apply)
+      + skip_destroy                   = false
+      + source_code_hash               = "Jkm8XZsjBWNAx56FSoeqa0tCzySJMasPo/f0d5RQMRw="
+      + source_code_size               = (known after apply)
+      + tags                           = {
+          + "Owner"   = "Raj Ponukumati"
+          + "Project" = "SearchEngine"
+        }
+      + tags_all                       = {
+          + "Owner"   = "Raj Ponukumati"
+          + "Project" = "SearchEngine"
+        }
+      + timeout                        = 3
+      + version                        = (known after apply)
+
+      + environment {
+          + variables = (known after apply)
+        }
+
+      + ephemeral_storage (known after apply)
+
+      + logging_config (known after apply)
+
+      + tracing_config (known after apply)
+    }
+
+  # aws_lambda_function.search_gateway will be created
+  + resource "aws_lambda_function" "search_gateway" {
+      + architectures                  = (known after apply)
+      + arn                            = (known after apply)
+      + code_sha256                    = (known after apply)
+      + filename                       = "lambda_placeholders/Search_gateway.zip"
+      + function_name                  = "search-gateway"
+      + handler                        = "sample.lambda_handler"
+      + id                             = (known after apply)
+      + invoke_arn                     = (known after apply)
+      + last_modified                  = (known after apply)
+      + memory_size                    = 128
+      + package_type                   = "Zip"
+      + publish                        = false
+      + qualified_arn                  = (known after apply)
+      + qualified_invoke_arn           = (known after apply)
+      + region                         = "us-east-1"
+      + reserved_concurrent_executions = -1
+      + response_streaming_invoke_arn  = (known after apply)
+      + role                           = "arn:aws:iam::122118540225:role/search-engine-lambda-role"
+      + runtime                        = "python3.11"
+      + signing_job_arn                = (known after apply)
+      + signing_profile_version_arn    = (known after apply)
+      + skip_destroy                   = false
+      + source_code_hash               = "Jkm8XZsjBWNAx56FSoeqa0tCzySJMasPo/f0d5RQMRw="
+      + source_code_size               = (known after apply)
+      + tags                           = {
+          + "Owner"   = "Raj Ponukumati"
+          + "Project" = "SearchEngine"
+        }
+      + tags_all                       = {
+          + "Owner"   = "Raj Ponukumati"
+          + "Project" = "SearchEngine"
+        }
+      + timeout                        = 3
+      + version                        = (known after apply)
+
+      + environment {
+          + variables = (known after apply)
+        }
+
+      + ephemeral_storage (known after apply)
+
+      + logging_config (known after apply)
+
+      + tracing_config (known after apply)
+    }
+
+  # aws_lambda_function.upload_to_search will be created
+  + resource "aws_lambda_function" "upload_to_search" {
+      + architectures                  = (known after apply)
+      + arn                            = (known after apply)
+      + code_sha256                    = (known after apply)
+      + filename                       = "lambda_placeholders/Upload_to_search.zip"
+      + function_name                  = "upload-to-search"
+      + handler                        = "sample.handler"
+      + id                             = (known after apply)
+      + invoke_arn                     = (known after apply)
+      + last_modified                  = (known after apply)
+      + memory_size                    = 128
+      + package_type                   = "Zip"
+      + publish                        = false
+      + qualified_arn                  = (known after apply)
+      + qualified_invoke_arn           = (known after apply)
+      + region                         = "us-east-1"
+      + reserved_concurrent_executions = -1
+      + response_streaming_invoke_arn  = (known after apply)
+      + role                           = "arn:aws:iam::122118540225:role/search-engine-lambda-role"
+      + runtime                        = "python3.11"
+      + signing_job_arn                = (known after apply)
+      + signing_profile_version_arn    = (known after apply)
+      + skip_destroy                   = false
+      + source_code_hash               = "Jkm8XZsjBWNAx56FSoeqa0tCzySJMasPo/f0d5RQMRw="
+      + source_code_size               = (known after apply)
+      + tags                           = {
+          + "Owner"   = "Raj Ponukumati"
+          + "Project" = "SearchEngine"
+        }
+      + tags_all                       = {
+          + "Owner"   = "Raj Ponukumati"
+          + "Project" = "SearchEngine"
+        }
+      + timeout                        = 3
+      + version                        = (known after apply)
+
+      + environment {
+          + variables = (known after apply)
+        }
+
+      + ephemeral_storage (known after apply)
+
+      + logging_config (known after apply)
+
+      + tracing_config (known after apply)
+    }
+
+  # aws_lambda_permission.apigw_invoke_search_function will be created
+  + resource "aws_lambda_permission" "apigw_invoke_search_function" {
+      + action              = "lambda:InvokeFunction"
+      + function_name       = "searchFunction"
+      + id                  = (known after apply)
+      + principal           = "apigateway.amazonaws.com"
+      + region              = "us-east-1"
+      + source_arn          = "arn:aws:execute-api:us-east-1:122118540225:zqurze0sj6/*/*"
+      + statement_id        = "AllowAPIGWInvokeSearchFunction"
+      + statement_id_prefix = (known after apply)
+    }
+
+  # aws_lambda_permission.apigw_invoke_search_gateway will be created
+  + resource "aws_lambda_permission" "apigw_invoke_search_gateway" {
+      + action              = "lambda:InvokeFunction"
+      + function_name       = "search-gateway"
+      + id                  = (known after apply)
+      + principal           = "apigateway.amazonaws.com"
+      + region              = "us-east-1"
+      + source_arn          = "arn:aws:execute-api:us-east-1:122118540225:zqurze0sj6/*/*"
+      + statement_id        = "AllowAPIGWInvokeSearchGateway"
+      + statement_id_prefix = (known after apply)
+    }
+
+  # aws_lambda_permission.s3_invoke_upload_to_search will be created
+  + resource "aws_lambda_permission" "s3_invoke_upload_to_search" {
+      + action              = "lambda:InvokeFunction"
+      + function_name       = "upload-to-search"
+      + id                  = (known after apply)
+      + principal           = "s3.amazonaws.com"
+      + region              = "us-east-1"
+      + source_arn          = "arn:aws:s3:::inter-docu-store-09052026093405"
+      + statement_id        = "AllowS3InvokeUploadToSearch"
+      + statement_id_prefix = (known after apply)
+    }
+
+  # aws_opensearch_domain.search will be created
+  + resource "aws_opensearch_domain" "search" {
+      + access_policies                   = (known after apply)
+      + advanced_options                  = (known after apply)
+      + arn                               = (known after apply)
+      + dashboard_endpoint                = (known after apply)
+      + dashboard_endpoint_v2             = (known after apply)
+      + domain_endpoint_v2_hosted_zone_id = (known after apply)
+      + domain_id                         = (known after apply)
+      + domain_name                       = "search-engine-domain"
+      + endpoint                          = (known after apply)
+      + endpoint_v2                       = (known after apply)
+      + engine_version                    = "OpenSearch_2.11"
+      + id                                = (known after apply)
+      + ip_address_type                   = (known after apply)
+      + region                            = "us-east-1"
+      + tags                              = {
+          + "Name"    = "search-engine-opensearch"
+          + "Owner"   = "Raj Ponukumati"
+          + "Project" = "SearchEngine"
+        }
+      + tags_all                          = {
+          + "Name"    = "search-engine-opensearch"
+          + "Owner"   = "Raj Ponukumati"
+          + "Project" = "SearchEngine"
+        }
+
+      + advanced_security_options {
+          + anonymous_auth_enabled         = (known after apply)
+          + enabled                        = true
+          + internal_user_database_enabled = true
+
+          + master_user_options {
+              + master_user_name     = "master-user"
+              + master_user_password = (sensitive value)
+            }
+        }
+
+      + aiml_options (known after apply)
+
+      + auto_tune_options (known after apply)
+
+      + cluster_config {
+          + dedicated_master_enabled = false
+          + instance_count           = 1
+          + instance_type            = "r8g.large.search"
+
+          + cold_storage_options (known after apply)
+
+          + node_options (known after apply)
+        }
+
+      + deployment_strategy_options (known after apply)
+
+      + domain_endpoint_options {
+          + custom_endpoint_enabled = false
+          + enforce_https           = true
+          + tls_security_policy     = "Policy-Min-TLS-1-2-2019-07"
+        }
+
+      + ebs_options {
+          + ebs_enabled = true
+          + iops        = (known after apply)
+          + throughput  = (known after apply)
+          + volume_size = 10
+          + volume_type = "gp3"
+        }
+
+      + encrypt_at_rest {
+          + enabled    = true
+          + kms_key_id = (known after apply)
+        }
+
+      + node_to_node_encryption {
+          + enabled = true
+        }
+
+      + off_peak_window_options (known after apply)
+
+      + software_update_options (known after apply)
+
+      + vpc_options {
+          + availability_zones = (known after apply)
+          + security_group_ids = [
+              + "sg-0459a66a70f3bf9cf",
+            ]
+          + subnet_ids         = [
+              + "subnet-004d50dfefc4fa8c7",
+            ]
+          + vpc_id             = (known after apply)
+        }
+    }
+
+  # aws_s3_bucket_notification.intermediate_notifications will be created
+  + resource "aws_s3_bucket_notification" "intermediate_notifications" {
+      + bucket      = "inter-docu-store-09052026093405"
+      + eventbridge = false
+      + id          = (known after apply)
+      + region      = "us-east-1"
+
+      + lambda_function {
+          + events              = [
+              + "s3:ObjectCreated:*",
+            ]
+          + id                  = (known after apply)
+          + lambda_function_arn = (known after apply)
+        }
+    }
+
+Plan: 14 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + opensearch_endpoint   = (known after apply)
+
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+Saved the plan to: tfplan
+
+To perform exactly these actions, run the following command to apply:
+    terraform apply "tfplan"

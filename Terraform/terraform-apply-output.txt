@@ -1,0 +1,102 @@
+terraform apply "tfplan"
+aws_opensearch_domain.search: Creating...
+aws_opensearch_domain.search: Still creating... [00m10s elapsed]
+aws_opensearch_domain.search: Still creating... [00m20s elapsed]
+aws_opensearch_domain.search: Still creating... [00m30s elapsed]
+aws_opensearch_domain.search: Still creating... [00m40s elapsed]
+aws_opensearch_domain.search: Still creating... [00m50s elapsed]
+aws_opensearch_domain.search: Still creating... [01m00s elapsed]
+aws_opensearch_domain.search: Still creating... [01m10s elapsed]
+aws_opensearch_domain.search: Still creating... [01m20s elapsed]
+aws_opensearch_domain.search: Still creating... [01m30s elapsed]
+aws_opensearch_domain.search: Still creating... [01m40s elapsed]
+aws_opensearch_domain.search: Still creating... [01m50s elapsed]
+aws_opensearch_domain.search: Still creating... [02m00s elapsed]
+aws_opensearch_domain.search: Still creating... [02m10s elapsed]
+aws_opensearch_domain.search: Still creating... [02m20s elapsed]
+aws_opensearch_domain.search: Still creating... [02m30s elapsed]
+aws_opensearch_domain.search: Still creating... [02m40s elapsed]
+aws_opensearch_domain.search: Still creating... [02m50s elapsed]
+aws_opensearch_domain.search: Still creating... [03m00s elapsed]
+aws_opensearch_domain.search: Still creating... [03m10s elapsed]
+aws_opensearch_domain.search: Still creating... [03m20s elapsed]
+aws_opensearch_domain.search: Still creating... [03m30s elapsed]
+aws_opensearch_domain.search: Still creating... [03m40s elapsed]
+aws_opensearch_domain.search: Still creating... [03m50s elapsed]
+aws_opensearch_domain.search: Still creating... [04m00s elapsed]
+aws_opensearch_domain.search: Still creating... [04m10s elapsed]
+aws_opensearch_domain.search: Still creating... [04m20s elapsed]
+aws_opensearch_domain.search: Still creating... [04m30s elapsed]
+aws_opensearch_domain.search: Still creating... [04m40s elapsed]
+aws_opensearch_domain.search: Still creating... [04m50s elapsed]
+aws_opensearch_domain.search: Still creating... [05m00s elapsed]
+aws_opensearch_domain.search: Still creating... [05m10s elapsed]
+aws_opensearch_domain.search: Still creating... [05m20s elapsed]
+aws_opensearch_domain.search: Still creating... [05m30s elapsed]
+aws_opensearch_domain.search: Still creating... [05m40s elapsed]
+aws_opensearch_domain.search: Still creating... [05m50s elapsed]
+aws_opensearch_domain.search: Still creating... [06m00s elapsed]
+aws_opensearch_domain.search: Still creating... [06m10s elapsed]
+aws_opensearch_domain.search: Still creating... [06m20s elapsed]
+aws_opensearch_domain.search: Still creating... [06m30s elapsed]
+aws_opensearch_domain.search: Still creating... [06m40s elapsed]
+aws_opensearch_domain.search: Still creating... [06m50s elapsed]
+aws_opensearch_domain.search: Still creating... [07m00s elapsed]
+aws_opensearch_domain.search: Still creating... [07m10s elapsed]
+aws_opensearch_domain.search: Still creating... [07m20s elapsed]
+aws_opensearch_domain.search: Still creating... [07m30s elapsed]
+aws_opensearch_domain.search: Still creating... [07m40s elapsed]
+aws_opensearch_domain.search: Still creating... [07m50s elapsed]
+aws_opensearch_domain.search: Still creating... [08m00s elapsed]
+aws_opensearch_domain.search: Still creating... [08m10s elapsed]
+aws_opensearch_domain.search: Still creating... [08m20s elapsed]
+aws_opensearch_domain.search: Still creating... [08m30s elapsed]
+aws_opensearch_domain.search: Still creating... [08m40s elapsed]
+aws_opensearch_domain.search: Still creating... [08m50s elapsed]
+aws_opensearch_domain.search: Still creating... [09m00s elapsed]
+aws_opensearch_domain.search: Still creating... [09m10s elapsed]
+aws_opensearch_domain.search: Still creating... [09m20s elapsed]
+aws_opensearch_domain.search: Still creating... [09m30s elapsed]
+aws_opensearch_domain.search: Still creating... [09m40s elapsed]
+aws_opensearch_domain.search: Still creating... [09m50s elapsed]
+aws_opensearch_domain.search: Still creating... [10m00s elapsed]
+aws_opensearch_domain.search: Creation complete after 10m3s [id=arn:aws:es:us-east-1:122118540225:domain/search-engine-domain]
+data.aws_iam_policy_document.lambda_opensearch: Reading...
+data.aws_iam_policy_document.lambda_opensearch: Read complete after 0s [id=1699197414]
+aws_lambda_function.upload_to_search: Creating...
+aws_lambda_function.search_gateway: Creating...
+aws_lambda_function.search_function: Creating...
+aws_iam_policy.lambda_opensearch: Creating...
+aws_iam_policy.lambda_opensearch: Creation complete after 1s [id=arn:aws:iam::122118540225:policy/search-engine-lambda-opensearch]
+aws_iam_role_policy_attachment.lambda_opensearch_attach: Creating...
+aws_iam_role_policy_attachment.lambda_opensearch_attach: Creation complete after 0s [id=search-engine-lambda-role/arn:aws:iam::122118540225:policy/search-engine-lambda-opensearch]
+aws_lambda_function.search_gateway: Creation complete after 6s [id=search-gateway]
+aws_lambda_permission.apigw_invoke_search_gateway: Creating...
+aws_apigatewayv2_integration.search_gateway_integration: Creating...
+aws_lambda_permission.apigw_invoke_search_gateway: Creation complete after 1s [id=AllowAPIGWInvokeSearchGateway]
+aws_apigatewayv2_integration.search_gateway_integration: Creation complete after 1s [id=kpc2u79]
+aws_apigatewayv2_route.root_route: Creating...
+aws_apigatewayv2_route.root_route: Creation complete after 0s [id=2j00z9g]
+aws_lambda_function.search_function: Still creating... [00m10s elapsed]
+aws_lambda_function.upload_to_search: Still creating... [00m10s elapsed]
+aws_lambda_function.search_function: Creation complete after 12s [id=searchFunction]
+aws_lambda_permission.apigw_invoke_search_function: Creating...
+aws_apigatewayv2_integration.search_function_integration: Creating...
+aws_lambda_permission.apigw_invoke_search_function: Creation complete after 1s [id=AllowAPIGWInvokeSearchFunction]
+aws_apigatewayv2_integration.search_function_integration: Creation complete after 1s [id=zuhqfb7]
+aws_apigatewayv2_route.search_route: Creating...
+aws_apigatewayv2_route.search_route: Creation complete after 0s [id=be497xs]
+aws_lambda_function.upload_to_search: Creation complete after 19s [id=upload-to-search]
+aws_lambda_permission.s3_invoke_upload_to_search: Creating...
+aws_lambda_permission.s3_invoke_upload_to_search: Creation complete after 0s [id=AllowS3InvokeUploadToSearch]
+aws_s3_bucket_notification.intermediate_notifications: Creating...
+aws_s3_bucket_notification.intermediate_notifications: Creation complete after 0s [id=inter-docu-store-09052026093405]
+
+Apply complete! Resources: 14 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+api_invoke_url = "https://zqurze0sj6.execute-api.us-east-1.amazonaws.com"
+document_store_bucket = "init-docu-store-09052026093305"
+intermediate_bucket = "inter-docu-store-09052026093405"
+opensearch_endpoint = "vpc-search-engine-domain-vyfj5nw7n7ddvgfmdph7jyndbe.us-east-1.es.amazonaws.com"

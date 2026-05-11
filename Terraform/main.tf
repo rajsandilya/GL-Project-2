@@ -1,0 +1,1 @@
+# Empty by design — Terraform loads all .tf files automatically.
