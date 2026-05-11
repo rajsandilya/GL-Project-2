@@ -6,7 +6,7 @@ Resources:
     Type: 'AWS::Serverless::Function'
     Properties:
       Handler: search_page.lambda_handler
-      Runtime: python3.9
+      Runtime: python3.11
       CodeUri: .
       Description: ''
       MemorySize: 128
