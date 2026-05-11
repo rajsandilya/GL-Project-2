@@ -11,9 +11,7 @@ Resources:
       Description: ''
       MemorySize: 512
       Timeout: 900
-      Role: 'arn:aws:iam::844028273225:role/lambda_s3'
+      Role: 'arn:aws:iam::122118540225:role/search-engine-lambda-role'
       Environment:
         Variables:
           TARGET_BUCKET: inter-docu-store-09052026093405
-      Layers:
-        - 'arn:aws:lambda:us-east-1:844028273225:layer:tika:1'
