@@ -13,3 +13,4 @@ artifacts:
   files:
     - gateway.yaml
     - SearchFunction/**/*
+    
