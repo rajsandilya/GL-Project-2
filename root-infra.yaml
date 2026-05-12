@@ -1,0 +1,177 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Root infrastructure for Search Engine Pipeline (Pipeline, Roles, CodeBuild, Artifact Bucket)
+
+Parameters:
+  GitHubRepo:
+    Type: String
+    Default: your-repo-name
+  GitHubOwner:
+    Type: String
+    Default: your-github-username
+  GitHubBranch:
+    Type: String
+    Default: main
+  GitHubToken:
+    Type: String
+    NoEcho: true
+
+Resources:
+
+  ###############################################
+  # Artifact Bucket
+  ###############################################
+  ArtifactBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: search-engine-artifacts-09052026
+      VersioningConfiguration:
+        Status: Enabled
+
+  ###############################################
+  # CodePipeline Service Role
+  ###############################################
+  CodePipelineRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: search-engine-codepipeline-role
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: codepipeline.amazonaws.com
+            Action: sts:AssumeRole
+
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AWSCodePipelineFullAccess
+        - arn:aws:iam::aws:policy/AWSCodeBuildDeveloperAccess
+        - arn:aws:iam::aws:policy/AWSCloudFormationFullAccess
+        - arn:aws:iam::aws:policy/AmazonS3FullAccess
+        - arn:aws:iam::aws:policy/AWSLambda_FullAccess
+
+  ###############################################
+  # CodeBuild Role
+  ###############################################
+  CodeBuildRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: search-engine-codebuild-role
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: codebuild.amazonaws.com
+            Action: sts:AssumeRole
+
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AWSCodeBuildDeveloperAccess
+        - arn:aws:iam::aws:policy/AmazonS3FullAccess
+        - arn:aws:iam::aws:policy/AWSLambda_FullAccess
+
+  ###############################################
+  # CloudFormation Execution Role
+  ###############################################
+  CloudFormationExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: search-engine-cloudformation-exec-role
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: cloudformation.amazonaws.com
+            Action: sts:AssumeRole
+
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AWSLambda_FullAccess
+        - arn:aws:iam::aws:policy/AmazonS3FullAccess
+        - arn:aws:iam::aws:policy/AWSCloudFormationFullAccess
+
+  ###############################################
+  # CodeBuild Project
+  ###############################################
+  CodeBuildProject:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Name: search-engine-build
+      ServiceRole: !GetAtt CodeBuildRole.Arn
+      Artifacts:
+        Type: CODEPIPELINE
+      Environment:
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: aws/codebuild/standard:7.0
+        Type: LINUX_CONTAINER
+      Source:
+        Type: CODEPIPELINE
+      TimeoutInMinutes: 30
+
+  ###############################################
+  # CodePipeline
+  ###############################################
+  CodePipeline:
+    Type: AWS::CodePipeline::Pipeline
+    Properties:
+      Name: search-engine-pipeline
+      RoleArn: !GetAtt CodePipelineRole.Arn
+      ArtifactStore:
+        Type: S3
+        Location: !Ref ArtifactBucket
+
+      Stages:
+        - Name: Source
+          Actions:
+            - Name: GitHubSource
+              ActionTypeId:
+                Category: Source
+                Owner: ThirdParty
+                Provider: GitHub
+                Version: 1
+              OutputArtifacts:
+                - Name: SourceOutput
+              Configuration:
+                Owner: !Ref GitHubOwner
+                Repo: !Ref GitHubRepo
+                Branch: !Ref GitHubBranch
+                OAuthToken: !Ref GitHubToken
+
+        - Name: Build
+          Actions:
+            - Name: BuildLambda
+              ActionTypeId:
+                Category: Build
+                Owner: AWS
+                Provider: CodeBuild
+                Version: 1
+              InputArtifacts:
+                - Name: SourceOutput
+              OutputArtifacts:
+                - Name: BuildOutput
+              Configuration:
+                ProjectName: !Ref CodeBuildProject
+
+        - Name: Deploy
+          Actions:
+            - Name: DeployLambda
+              ActionTypeId:
+                Category: Deploy
+                Owner: AWS
+                Provider: CloudFormation
+                Version: 1
+              InputArtifacts:
+                - Name: BuildOutput
+              Configuration:
+                ActionMode: CREATE_UPDATE
+                StackName: lambda-stack
+                TemplatePath: BuildOutput::lambdaoutput.yaml
+                Capabilities: CAPABILITY_NAMED_IAM
+                RoleArn: !GetAtt CloudFormationExecutionRole.Arn
+
+Outputs:
+  PipelineName:
+    Value: !Ref CodePipeline
+  ArtifactBucketName:
+    Value: !Ref ArtifactBucket
+  CodePipelineRoleArn:
+    Value: !GetAtt CodePipelineRole.Arn

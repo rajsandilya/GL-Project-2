@@ -5,11 +5,11 @@ phases:
       python: 3.11
   build:
     commands:
-      - pip install -r "Upload to search/requirements.txt" -t "Upload to search"/
-      - aws cloudformation package --template-file "Upload to search/upload-to-search.yaml" --s3-bucket artifacts-bucket-gl --output-template-file upload.yaml
+      - pip install -r "Upload to search"/requirements.txt -t "Upload to search"/
+      - aws cloudformation package --template-file "Upload to search"/upload-to-search.yaml --s3-bucket codepipeline-us-east-1-66843b3dcf90-47f6-a5e2-120b13d644c9 --output-template-file upload.yaml
 
 artifacts:
   type: zip
   files:
     - upload.yaml
-    - "Upload to search/**/*"
+    - "Upload to search"/**/*

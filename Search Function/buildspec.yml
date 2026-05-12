@@ -5,8 +5,8 @@ phases:
       python: 3.11
   build:
     commands:
-      - pip install -r requirements.txt -t .    
-      - aws cloudformation package --template-file search-gateway.yaml --s3-bucket artifacts-bucket-gl --output-template-file gateway.yaml
+      - pip install -r "Search Function/requirements.txt" -t "Search Function"/    
+      - aws cloudformation package --template-file "Search Function/search-gateway.yaml" --s3-bucket codepipeline-us-east-1-66843b3dcf90-47f6-a5e2-120b13d644c9 --output-template-file gateway.yaml
 
 artifacts:
   type: zip

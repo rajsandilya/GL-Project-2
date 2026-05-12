@@ -16,3 +16,20 @@ Resources:
       Environment:
         Variables:
           TARGET_BUCKET: inter-docu-store-09052026093405
+    Policies:
+      - S3ReadPolicy:
+            BucketName: init-docu-store-09052026093305
+      - S3WritePolicy:
+            BucketName: inter-docu-store-09052026093405
+      
+    Events:
+        S3UploadEvent:
+        Type: S3
+        Properties:
+            Bucket: init-docu-store-09052026093305
+            Events: s3:ObjectCreated:*
+            Filter:
+                S3Key:
+                    Rules:
+                    - Name: suffix
+                      Value: .pdf
