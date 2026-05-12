@@ -13,7 +13,6 @@ Resources:
       MemorySize: 128
       Timeout: 300
       Role: 'arn:aws:iam::122118540225:role/search-engine-lambda-role'
-
       Policies:
-      - S3WritePolicy:
-            BucketName: inter-docu-store-09052026093405 
+        - S3WritePolicy:
+            BucketName: inter-docu-store-09052026093405
