@@ -5,7 +5,7 @@ Resources:
   uploadtosearch:
     Type: 'AWS::Serverless::Function'
     Properties:
-      Function:upload-to-search
+      Function: upload-to-search
       Handler: lambda_function.handler
       Runtime: python3.11
       CodeUri: .
