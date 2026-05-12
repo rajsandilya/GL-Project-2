@@ -5,6 +5,7 @@ Resources:
   pdftotxt:
     Type: 'AWS::Serverless::Function'
     Properties:
+      FunctionName: pdftotxt
       Handler: lambda_function.lambda_handler
       Runtime: python3.11
       CodeUri: .
