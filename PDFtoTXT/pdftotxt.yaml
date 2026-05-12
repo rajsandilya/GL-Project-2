@@ -1,35 +1,35 @@
-AWSTemplateFormatVersion: '2010-09-09'
-Transform: 'AWS::Serverless-2016-10-31'
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
 Description: An AWS Serverless Specification template describing your function.
 Resources:
   pdftotxt:
-    Type: 'AWS::Serverless::Function'
+    Type: AWS::Serverless::Function
     Properties:
       FunctionName: pdftotxt
       Handler: lambda_function.lambda_handler
       Runtime: python3.11
       CodeUri: .
-      Description: ''
+      Description: ""
       MemorySize: 512
       Timeout: 900
-      Role: 'arn:aws:iam::122118540225:role/search-engine-lambda-role'
+      Role: arn:aws:iam::122118540225:role/search-engine-lambda-role
       Environment:
         Variables:
           TARGET_BUCKET: inter-docu-store-09052026093405
-    Policies:
-      - S3ReadPolicy:
+      Policies:
+        - S3ReadPolicy:
             BucketName: init-docu-store-09052026093305
-      - S3WritePolicy:
+        - S3WritePolicy:
             BucketName: inter-docu-store-09052026093405
-      
-    Events:
+      Events:
         S3UploadEvent:
-        Type: S3
-        Properties:
-            Bucket: init-docu-store-09052026093305
-            Events: s3:ObjectCreated:*
-            Filter:
-                S3Key:
-                    Rules:
-                    - Name: suffix
-                      Value: .pdf
+          Type: S3
+          Properties: null
+          Bucket: init-docu-store-09052026093305
+          Events: s3:ObjectCreated:*
+          Filter:
+            S3Key:
+              Rules:
+                - Name: suffix
+                  Value: .pdf
+                  
