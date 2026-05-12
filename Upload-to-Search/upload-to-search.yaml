@@ -1,19 +1,19 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: 'AWS::Serverless-2016-10-31'
 Description: An AWS Serverless Specification template describing your function.
+
 Resources:
   uploadtosearch:
-    Type: 'AWS::Serverless::Function'
+    Type: AWS::Serverless::Function
     Properties:
-      Function: upload-to-search
+      FunctionName: upload-to-search
       Handler: lambda_function.handler
       Runtime: python3.11
       CodeUri: .
       Description: ''
       MemorySize: 512
       Timeout: 900
-      Role: 'arn:aws:iam::122118540225:role/search-engine-lambda-role'
-    
-    Policies:
-      - S3WritePolicy:
-            BucketName: inter-docu-store-09052026093405 
+      Role: arn:aws:iam::122118540225:role/search-engine-lambda-role
+      Policies:
+        - S3WritePolicy:
+            BucketName: inter-docu-store-09052026093405
