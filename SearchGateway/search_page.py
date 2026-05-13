@@ -84,7 +84,8 @@ def searchhome():
 			var url = form.attr('action');
 			$.ajax({
 				type: "POST", url: url,
-				data: form.serialize(),
+				data: JSON.stringify({ query: $("#searchTerm").val() }),
+                contentType: "application/json",
 				success: function(resp) {
 					console.log(resp);
 					console.log("Successful search");
