@@ -72,7 +72,8 @@ def searchhome():
 
 		$(document).ready(function() {
 			$("#home").attr('href', '/');
-			$("#searchForm").attr('action', '/search');
+			$("#searchForm").attr('action', 'https://zqurze0sj6.execute-api.us-east-1.amazonaws.com/search');
+
 		});
 
 		$("#searchForm").submit(function(e) {
