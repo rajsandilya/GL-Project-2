@@ -43,7 +43,6 @@ variable "opensearch_master_password" {
   type        = string
   sensitive   = true
 }
-
 variable "lambda_pdftotxt_zip" {
   description = "Path to pdftotxt Lambda ZIP file"
   type        = string
